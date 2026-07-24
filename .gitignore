@@ -1,0 +1,29 @@
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local runtime data. These files may contain cookies, webhook URLs, channel history, or private reports.
+data/
+reports/
+
+# Reverse-engineering captures and temporary browser bundles.
+pd_assets/
+tmp-pd-js/
+tmp-pd-home.html
+pd_index_bundle.js
+cache_hits.json
+precise_hits.json
+chrome_pdqq_front.png
+chrome_pdqq_screenshot.png
+
+# Local OS/editor noise.
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Generated release bundles.
+open-source-package-*/
+pd-keyword-reporter-open-source-*.zip
