@@ -1,0 +1,16 @@
+﻿{
+  "name": "pd-keyword-reporter",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Local HTTP-based keyword monitor and daily report generator for Tencent Channel pages.",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "once": "node src/server.js --once",
+    "install-task": "powershell -ExecutionPolicy Bypass -File scripts/install-daily-task.ps1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
