@@ -1,0 +1,194 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>频道关键词日报</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="topbar">
+      <div>
+        <div class="brand-row">
+          <h1>频道关键词日报</h1>
+          <button id="themeBtn" type="button" class="icon-button theme-toggle" aria-label="切换主题" title="切换主题">☾</button>
+        </div>
+        <p id="status">加载中</p>
+      </div>
+      <div class="actions">
+        <button id="chromeBtn" type="button"><span class="btn-icon">⇧</span>读取 Chrome 频道</button>
+        <button id="resolveGuildBtn" type="button"><span class="btn-icon">◎</span>解析未知名称</button>
+        <button id="presetBtn" type="button"><span class="btn-icon">⌁</span>导入频道接口模板</button>
+        <button id="saveBtn" type="button"><span class="btn-icon">▣</span>保存配置</button>
+        <button id="runBtn" type="button" class="primary">立即爬取</button>
+        <button id="clearBtn" type="button" class="danger"><span class="btn-icon">⌫</span>清空显示</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <form id="configForm" class="panel">
+        <h2 class="panel-title"><span class="title-icon">⚙</span>监控配置</h2>
+        <label>频道名称
+          <input id="channel" name="channel" autocomplete="off">
+        </label>
+        <div id="targetInfo" class="target-info">真实抓取目标：未配置</div>
+        <label>关键词
+          <textarea id="keywords" name="keywords" rows="3"></textarea>
+        </label>
+        <label>每天运行时间
+          <input id="scheduleTime" name="scheduleTime" type="time">
+        </label>
+        <div class="split">
+          <label>开始日期
+            <input id="startDate" name="startDate" type="date">
+          </label>
+          <label>结束日期
+            <input id="endDate" name="endDate" type="date">
+          </label>
+        </div>
+        <div class="inline-option">
+          <input id="searchEnabled" name="searchEnabled" type="checkbox">
+          <label for="searchEnabled">使用频道内搜索补全命中</label>
+        </div>
+        <label>每个关键词最多搜索页数
+          <input id="maxSearchPagesPerKeyword" type="number" min="1" max="100" step="1">
+        </label>
+        <div class="inline-option">
+          <input id="reportEnabled" name="reportEnabled" type="checkbox">
+          <label for="reportEnabled">导出日报</label>
+        </div>
+        <label>日报输出位置
+          <div class="path-picker">
+            <input id="reportOutputDir" name="reportOutputDir" placeholder="reports 或 D:\\频道日报">
+            <button id="browseReportDirBtn" type="button" class="secondary">浏览</button>
+          </div>
+        </label>
+        <details class="advanced-fields notify-fields">
+          <summary>通知设置</summary>
+          <div class="inline-option">
+            <input id="notifyEnabled" name="notifyEnabled" type="checkbox">
+            <label for="notifyEnabled">启用通知</label>
+          </div>
+          <label>通知平台
+            <select id="notifyPlatform" name="notifyPlatform">
+              <option value="wecom">企业微信</option>
+              <option value="feishu">飞书</option>
+            </select>
+          </label>
+          <label>Webhook URL
+            <input id="notifyWebhookUrl" name="notifyWebhookUrl" placeholder="https://qyapi.weixin.qq.com/... 或 https://open.feishu.cn/...">
+          </label>
+          <label>飞书签名 Secret
+            <input id="notifyFeishuSecret" name="notifyFeishuSecret" type="password" placeholder="飞书机器人开启签名时填写">
+          </label>
+          <div class="inline-option">
+            <input id="notifyOnlyOnHit" name="notifyOnlyOnHit" type="checkbox">
+            <label for="notifyOnlyOnHit">仅命中时通知</label>
+          </div>
+          <label>最多预览消息数
+            <input id="notifyMaxPreview" name="notifyMaxPreview" type="number" min="0" max="10" step="1">
+          </label>
+        </details>
+        <details class="advanced-fields">
+          <summary>请求设置</summary>
+          <label>请求 URL
+            <input id="requestUrl" name="requestUrl" placeholder="https://...">
+          </label>
+          <label>请求方法
+            <select id="method" name="method">
+              <option>GET</option>
+              <option>POST</option>
+            </select>
+          </label>
+          <label>请求头 JSON
+            <textarea id="headers" name="headers" rows="8" spellcheck="false"></textarea>
+          </label>
+          <label>请求体
+            <textarea id="body" name="body" rows="5" spellcheck="false"></textarea>
+          </label>
+          <label>curl
+            <textarea id="curl" name="curl" rows="7" spellcheck="false"></textarea>
+          </label>
+        </details>
+        <details id="loginSettings" class="advanced-fields">
+          <summary>登录设置</summary>
+          <div id="cookieStatus" class="target-info warn is-hidden">Cookie 可能已过期，请在 pd.qq.com 登录后重新导入。</div>
+          <label>登录 Cookie
+            <textarea id="cookieInput" name="cookieInput" rows="3" spellcheck="false" placeholder="Cookie: p_skey=...; uin=...; ..."></textarea>
+          </label>
+          <button id="cookieBtn" type="button" class="secondary">写入 Cookie 到请求头</button>
+          <label>控制台导入脚本
+            <textarea id="importScript" rows="4" readonly spellcheck="false"></textarea>
+          </label>
+          <button id="copyScriptBtn" type="button" class="secondary">复制导入脚本</button>
+        </details>
+        <details class="advanced-fields">
+          <summary>显示设置</summary>
+          <label>消息列表路径
+            <input id="itemPath" placeholder="data.list">
+          </label>
+          <label>消息 ID 字段
+            <input id="idField" placeholder="id">
+          </label>
+          <label>时间字段
+            <input id="timeField" placeholder="created_at">
+          </label>
+          <label>文本字段
+            <textarea id="textFields" rows="4" placeholder="title&#10;content"></textarea>
+          </label>
+        </details>
+        <p class="hint">支持动态、评论等频道接口请求，需从 Chrome DevTools 的 Network 面板复制接口或活跃 Cookie 粘贴上去，定时爬取会通过 HTTP 接口运行。</p>
+      </form>
+
+      <section class="panel">
+        <h2 class="panel-title"><span class="title-icon">⚙</span>抓取与状态</h2>
+        <details class="advanced-fields">
+          <summary>手动触发</summary>
+          <div class="trigger-actions">
+            <button id="runMirrorBtn" type="button" class="primary ghost-action">开始运行</button>
+            <button id="reportMirrorBtn" type="button" class="ghost-action">日报</button>
+          </div>
+        </details>
+        <div class="split status-grid">
+          <label>最多抓取页数
+            <input id="maxPagesPerRun" type="number" min="1" max="100" step="1">
+          </label>
+          <label>最多扫描条数
+            <input id="maxItemsPerRun" type="number" min="1" max="1000" step="1">
+          </label>
+        </div>
+        <div class="split status-grid">
+          <details class="advanced-fields status-fold">
+            <summary>最近运行</summary>
+            <div id="runs" class="list"></div>
+          </details>
+          <details class="advanced-fields status-fold">
+            <summary>日报</summary>
+            <div id="reports" class="list"></div>
+          </details>
+        </div>
+        <h3>最近抓取样本</h3>
+        <div id="lastScan" class="list"></div>
+        <details class="advanced-fields">
+          <summary>Chrome 频道监控</summary>
+          <div id="chromeGuilds" class="list"></div>
+        </details>
+      </section>
+    </section>
+
+    <section class="panel full">
+      <div class="section-head">
+        <h2>历史命中报告</h2>
+        <span id="messagesSummary" class="meta"></span>
+      </div>
+      <div class="history-toolbar">
+        <button id="historyToggleBtn" type="button" class="small"><span class="btn-icon">▤</span>隐藏日志⌄</button>
+        <p class="hint">这里是当日监控爬取的记录卡片。基础运行里的命中就是最近一次爬取的文本命中。</p>
+      </div>
+      <div id="messages" class="messages"></div>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
