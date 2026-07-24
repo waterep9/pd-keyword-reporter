@@ -1,0 +1,49 @@
+{
+  "channel": "示例频道",
+  "keywords": [
+    "示例关键词"
+  ],
+  "scheduleTime": "08:30",
+  "timezone": "Asia/Shanghai",
+  "dateRange": {
+    "startDate": "",
+    "endDate": ""
+  },
+  "search": {
+    "enabled": true,
+    "maxPagesPerKeyword": 20
+  },
+  "report": {
+    "enabled": false,
+    "outputDir": "reports"
+  },
+  "notify": {
+    "enabled": false,
+    "platform": "wecom",
+    "webhookUrl": "",
+    "feishuSecret": "",
+    "onlyOnHit": true,
+    "maxPreview": 3
+  },
+  "request": {
+    "curl": "",
+    "url": "https://pd.qq.com/qunng/guild/gotrpc/auth/trpc.qchannel.commreader.ComReader/GetGuildFeeds?bkn={bkn}",
+    "method": "POST",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "origin": "https://pd.qq.com",
+      "referer": "https://pd.qq.com/",
+      "user-agent": "Mozilla/5.0",
+      "content-type": "application/json"
+    },
+    "body": "{\n  \"count\": 50,\n  \"from\": 0,\n  \"guild_id\": \"1234567890\",\n  \"get_type\": 1,\n  \"feedAttchInfo\": \"\",\n  \"sortOption\": 0,\n  \"need_channel_list\": false,\n  \"need_top_info\": false\n}",
+    "itemPath": "data.vecFeed",
+    "timeField": "",
+    "idField": "",
+    "textFields": []
+  },
+  "limits": {
+    "maxItemsPerRun": 200,
+    "maxPagesPerRun": 20
+  }
+}
